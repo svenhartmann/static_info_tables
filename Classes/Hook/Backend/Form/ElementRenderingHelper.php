@@ -78,7 +78,7 @@ class ElementRenderingHelper {
 						$countryRepository = $objectManager->get('SJBR\\StaticInfoTables\\Domain\\Repository\\CountryRepository');
 						/** @var $country SJBR\StaticInfoTables\Domain\Model\Country */
 						$country = $countryRepository->findByUid($PA['row']['uid']);
-						$isoCode = $country->getIsoCodeA2();
+						$isoCode = ($country !== NULL) ? $country->getIsoCodeA2() : '';
 					}
 					if ($isoCode) {
 						$PA['title'] = $PA['title'] . ' (' . $isoCode . ')';
@@ -95,8 +95,8 @@ class ElementRenderingHelper {
 						$languageRepository = $objectManager->get('SJBR\\StaticInfoTables\\Domain\\Repository\\LanguageRepository');
 						/** @var $language SJBR\StaticInfoTables\Domain\Model\Language */
 						$language = $languageRepository->findByUid($PA['row']['uid']);
-						$isoCodes = array($language->getIsoCodeA2());
-						if ($language->getCountryIsoCodeA2()) {
+						$isoCodes = array(($language !== NULL) ? $language->getIsoCodeA2(): '');
+						if ($language !== NULL && $language->getCountryIsoCodeA2()) {
 							$isoCodes[] = $language->getCountryIsoCodeA2();
 						}
 						$isoCode = implode('_', $isoCodes);
